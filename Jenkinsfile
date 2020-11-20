@@ -10,7 +10,7 @@ pipeline {
     	stage ('Load Properties file') {
       		steps {
         		script {
-          			load 'build.properties'
+          			//load 'build.properties'
           			echo "Inside===========${appname}"
         		}
       		}
