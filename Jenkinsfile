@@ -52,9 +52,9 @@ pipeline {
     stage('Set version') {
       steps {
         script { 
-          echo "Outside===========${appname}"
+          echo "Outside===========${appname}"               //############################# R ##############################
           def values = env.GIT_BRANCH.tokenize('/')
-          branchType = values[0] 
+          branchType = values[0]
           branchVersion = values[1]
           artifactVersion = (branchType == 'release' ? values[1] : 'DEV-SNAPSHOT')
           echo "branchType ==== $branchType"       //############################# R ##############################
@@ -64,26 +64,30 @@ pipeline {
       }
     }
 
-    // stage('docker login and container build') {
-    //   steps {
-    //     sh "ls -lrt; pwd"
-    //     echo 'running docker build'
-    //     script {
-    //       //withEnv([ARTIFACTORY = credentials("${ARTIFACTORY}")])
-    //         echo "==================="
-    //         //env.appname = appname
-    //         echo "This is ${env.ARTIFACTORY_USR}"
-    //         sh "docker build -t ${env.appname}-${env.GIT_COMMIT}:latest --build-arg ARTIFACTORY_ACCOUNT=${env.ARTIFACTORY_USR} --build-arg ARTIFACTORY_TOKEN=${env.ARTIFACTORY_PSW} ."
-    //         sh "docker images"
+    stage('docker login and container build') {
+      steps {
+        sh "ls -lrt; pwd"
+        echo 'running docker build'
+        script {
+          //withEnv([ARTIFACTORY = credentials("${ARTIFACTORY}")])
+            echo "==================="
+            //env.appname = appname
+            echo "This is ${env.ARTIFACTORY_USR}"
+            //sh "docker build -t ${env.appname}-${env.GIT_COMMIT}:latest --build-arg ARTIFACTORY_ACCOUNT=${env.ARTIFACTORY_USR} --build-arg ARTIFACTORY_TOKEN=${env.ARTIFACTORY_PSW} ."
+            //sh "docker images"
+            sh "echo appname-GIT_COMMIT-ARTIFACTORY_USR-ARTIFACTORY_PSW ====== $appname-${env.GIT_COMMIT}-${env.ARTIFACTORY_USR}-${env.ARTIFACTORY_PSW}"
 
-    //         sh """
-    //             docker container create --name ${env.appname}-${env.GIT_COMMIT} ${env.appname}-${env.GIT_COMMIT}:latest
-    //             docker cp ${env.appname}-${env.GIT_COMMIT}:/app/build/libs ${env.WORKSPACE}/
-    //             ls -lrt ${env.WORKSPACE}/
-    //         """
-    //     }
-    //   }
-    // }
+            //sh """
+            //    docker container create --name ${env.appname}-${env.GIT_COMMIT} ${env.appname}-${env.GIT_COMMIT}:latest
+            //    docker cp ${env.appname}-${env.GIT_COMMIT}:/app/build/libs ${env.WORKSPACE}/
+            //    ls -lrt ${env.WORKSPACE}/
+            //"""
+            sh """                                                                   
+                echo "appname-GIT_COMMIT-WORKSPACE ====== $appname-${env.GIT_COMMIT}-${env.WORKSPACE}   ############################# R ##############################
+            """                                                              
+        }
+      }
+    }
 
     // Removing env.GIT_COMMIT, env.GIT_COMMIT was added only to test the CI/CD pipeline changes.
     // stage('Publish artifacts') {
