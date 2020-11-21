@@ -32,7 +32,7 @@ pipeline {
       steps {
         sh label: 'Getting build versions', script: '''
         which git; git --version
-        //which gradle; gradle --version          //############################## U C  #############################
+        #which gradle; gradle --version          //############################## U C  #############################
         which docker; docker --version
         systemctl status docker;
         uname -a;
