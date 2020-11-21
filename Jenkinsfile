@@ -41,12 +41,12 @@ pipeline {
       }
     }
 
-    // stage('Checkout SCM') {
-    //   steps {
-    //     cleanWs()
-    //     checkout scm
-    //   }
-    // }
+    stage('Checkout SCM') {
+      steps {
+        cleanWs()
+        checkout scm
+      }
+    }
     
     // Conditions to set artification version is covered for develop and release branches
     // stage('Set version') {
