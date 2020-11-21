@@ -57,6 +57,9 @@ pipeline {
           branchType = values[0] 
           branchVersion = values[1]
           artifactVersion = (branchType == 'release' ? values[1] : 'DEV-SNAPSHOT')
+          echo "branchType ==== $branchType"       //############################# R ##############################
+          echo "branchVersion ==== $branchVersion"       //############################# R ##############################
+          echo "artifactVersion ====== $artifactVersion"    //############################# R ##############################
         }
       }
     }
