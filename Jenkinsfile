@@ -96,11 +96,8 @@ pipeline {
         }
       } 
       steps {
-        sh """
-          dateTime=`date +%Y%m%d%H%M%S`
-          echo "dateTime ======= $dateTime"
-        """
         script {
+          def dateTime = new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone('UTC'))
           reponame = (branchType == 'release') ? "${ARTIFACT_REPOSITORY_RELEASE}" : "${ARTIFACT_REPOSITORY_LOCAL}"
           targetfilename = "$appname-${artifactVersion}"
           echo "dateTime-reponame-targetfilename ========= $dateTime-$reponame-$targetfilename"         //############################# R ##############################
