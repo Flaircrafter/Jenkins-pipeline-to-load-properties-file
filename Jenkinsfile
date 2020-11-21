@@ -31,6 +31,7 @@ pipeline {
     stage('Environment check') {
       steps {
         sh label: 'Getting build versions', script: '''
+        set -x
         which git; git --version
         #which gradle; gradle --version          //############################## U C  #############################
         which docker; docker --version
