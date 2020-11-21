@@ -69,18 +69,16 @@ pipeline {
         sh "ls -lrt; pwd"
         echo 'running docker build'
         script {
-          //withEnv([ARTIFACTORY = credentials("${ARTIFACTORY}")])
             echo "==================="
-            //env.appname = appname
             echo "This is ${env.ARTIFACTORY_USR}"
-            //sh "docker build -t ${env.appname}-${env.GIT_COMMIT}:latest --build-arg ARTIFACTORY_ACCOUNT=${env.ARTIFACTORY_USR} --build-arg ARTIFACTORY_TOKEN=${env.ARTIFACTORY_PSW} ."
-            //sh "docker images"
-            sh "echo appname-GIT_COMMIT-ARTIFACTORY_USR-ARTIFACTORY_PSW ====== $appname-${env.GIT_COMMIT}-${env.ARTIFACTORY_USR}-${env.ARTIFACTORY_PSW}"
+            //sh "docker build -t ${env.appname}-${env.GIT_COMMIT}:latest --build-arg ARTIFACTORY_ACCOUNT=${env.ARTIFACTORY_USR} --build-arg ARTIFACTORY_TOKEN=${env.ARTIFACTORY_PSW} ."         //############################## U C  #############################
+            //sh "docker images"                                                                                                                              //############################## U C  #############################
+            sh "echo appname-GIT_COMMIT-ARTIFACTORY_USR-ARTIFACTORY_PSW ====== $appname-${env.GIT_COMMIT}-${env.ARTIFACTORY_USR}-${env.ARTIFACTORY_PSW}"     //############################# R ##############################
 
             //sh """
-            //    docker container create --name ${env.appname}-${env.GIT_COMMIT} ${env.appname}-${env.GIT_COMMIT}:latest
-            //    docker cp ${env.appname}-${env.GIT_COMMIT}:/app/build/libs ${env.WORKSPACE}/
-            //    ls -lrt ${env.WORKSPACE}/
+            //    docker container create --name ${env.appname}-${env.GIT_COMMIT} ${env.appname}-${env.GIT_COMMIT}:latest         //############################## U C  #############################
+            //    docker cp ${env.appname}-${env.GIT_COMMIT}:/app/build/libs ${env.WORKSPACE}/                                    //############################## U C  #############################
+            //    ls -lrt ${env.WORKSPACE}/                                                                   //############################## U C  #############################
             //"""
             sh """                                                                   
                 echo "appname-GIT_COMMIT-WORKSPACE ====== $appname-${env.GIT_COMMIT}-${env.WORKSPACE}"   ############################# R ##############################
@@ -89,62 +87,62 @@ pipeline {
       }
     }
 
-    // Removing env.GIT_COMMIT, env.GIT_COMMIT was added only to test the CI/CD pipeline changes.
-    // stage('Publish artifacts') {
-    //   when {
-    //     expression {
-    //       (branchType == 'develop' || branchType == 'release')
-    //     }
-    //   } 
-    //   steps {
-    //     script {
-    //       dateTime=$(date +"%Y%m%d%H%M%S")
-    //       reponame = (branchType == 'release') ? "${ARTIFACT_REPOSITORY_RELEASE}" : "${ARTIFACT_REPOSITORY_LOCAL}"
-    //       targetfilename = "${env.appname}-${artifactVersion}"
-    //     }
+    //Removing env.GIT_COMMIT, env.GIT_COMMIT was added only to test the CI/CD pipeline changes.
+    stage('Publish artifacts') {
+      when {
+        expression {
+          (branchType == 'develop' || branchType == 'release')
+        }
+      } 
+      steps {
+        script {
+          dateTime=$(date +"%Y%m%d%H%M%S")
+          reponame = (branchType == 'release') ? "${ARTIFACT_REPOSITORY_RELEASE}" : "${ARTIFACT_REPOSITORY_LOCAL}"
+          targetfilename = "${env.appname}-${artifactVersion}"
+        }
 
-    //     withCredentials([usernamePassword(
-    //       credentialsId: "${ARTIFACTORY}",
-    //       usernameVariable: 'username',
-    //       passwordVariable: 'password'
-    //     )]) {
-    //       rtServer(
-    //         id: 'ArtifactoryServer',
-    //         url: "${ARTIFACTORY_URL}",
-    //         username: "$username",
-    //         password: "$password",
-    //       )
+        withCredentials([usernamePassword(
+          credentialsId: "${ARTIFACTORY}",
+          usernameVariable: 'username',
+          passwordVariable: 'password'
+        )]) {
+          rtServer(
+            id: 'ArtifactoryServer',
+            url: "${ARTIFACTORY_URL}",
+            username: "$username",
+            password: "$password",
+          )
 
-    //       rtUpload(
-    //         serverId: 'ArtifactoryServer',
-    //         spec: """{
-    //               "files": [
-    //                 {
-    //                   "pattern": "${env.WORKSPACE}/${appname}-(*).jar",
-    //                   "target": "${env.reponame}/${env.REPO_PATH}/${env.appname}/${artifactVersion}/${targetfilename}-${dateTime}.jar",
-    //                   "props": "businessUnit.name=Fixed-Income;
+          rtUpload(
+            serverId: 'ArtifactoryServer',
+            spec: """{
+                  "files": [
+                    {
+                      "pattern": "${env.WORKSPACE}/${appname}-(*).jar",
+                      "target": "${env.reponame}/${env.REPO_PATH}/${env.appname}/${artifactVersion}/${targetfilename}-${dateTime}.jar",
+                      "props": "businessUnit.name=Fixed-Income;
                       
-    //                 },
-    //                 {
-    //                   "pattern": "${env.WORKSPACE}/scripts/start-${env.appname}.sh",
-    //                   "target": "${env.reponame}/${env.REPO_PATH}/${env.appname}/${artifactVersion}/start-${env.appname}.sh",
-    //                   "props": "businessUnit.name=Fixed-Income"
-    //                 },
-    //                 {
-    //                   "pattern": "${env.WORKSPACE}/scripts/stop-${env.appname}.sh",
-    //                   "target": "${env.reponame}/${env.REPO_PATH}/${env.appname}/${artifactVersion}/stop-${env.appname}.sh",
-    //                   "props": "businessUnit.name=Fixed-Income" 
-    //                 }
-    //               ]
-    //             }""",
-    //       )
+                    },
+                    {
+                      "pattern": "${env.WORKSPACE}/scripts/start-${env.appname}.sh",
+                      "target": "${env.reponame}/${env.REPO_PATH}/${env.appname}/${artifactVersion}/start-${env.appname}.sh",
+                      "props": "businessUnit.name=Fixed-Income"
+                    },
+                    {
+                      "pattern": "${env.WORKSPACE}/scripts/stop-${env.appname}.sh",
+                      "target": "${env.reponame}/${env.REPO_PATH}/${env.appname}/${artifactVersion}/stop-${env.appname}.sh",
+                      "props": "businessUnit.name=Fixed-Income" 
+                    }
+                  ]
+                }""",
+          )
 
-    //       rtPublishBuildInfo(
-    //         serverId: 'ArtifactoryServer'
-    //       )
-    //     }
-    //   }
-    // }
+          rtPublishBuildInfo(
+            serverId: 'ArtifactoryServer'
+          )
+        }
+      }
+    }
 
       
     // stage('Trigger QA deployment') {
