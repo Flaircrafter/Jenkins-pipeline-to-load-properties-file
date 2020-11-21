@@ -97,7 +97,8 @@ pipeline {
       } 
       steps {
         sh """
-          dateTime=$(date +"%Y%m%d%H%M%S")
+          dateTime=`date +%Y%m%d%H%M%S`
+          echo "dateTime ======= $dateTime"
         """
         script {
           reponame = (branchType == 'release') ? "${ARTIFACT_REPOSITORY_RELEASE}" : "${ARTIFACT_REPOSITORY_LOCAL}"
