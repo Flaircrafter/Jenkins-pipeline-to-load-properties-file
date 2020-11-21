@@ -1,10 +1,10 @@
 pipeline {
 
   //agent {
-  //  label 'slave1'     ############################## U C  #############################
+  //  label 'slave1'     //############################## U C  #############################
   //}
 
-  agent any        ############################# R ##############################
+  agent any        //############################# R ##############################
  
   //environment {
   //  ARTIFACTORY = credentials("${ARTIFACTORY}") // Username with password
@@ -21,8 +21,8 @@ pipeline {
     stage ('Load Properties file') {
       steps {
         script {
-          //load 'jenkins-props/build.properties' ############################## U C  #############################
-          load 'build.properties'  ############################# R ##############################               
+          //load 'jenkins-props/build.properties' //############################## U C  #############################
+          load 'build.properties'  //############################# R ##############################               
           echo "Inside===========${appname}"
         }
       }
