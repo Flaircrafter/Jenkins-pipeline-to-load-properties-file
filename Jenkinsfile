@@ -6,11 +6,11 @@ pipeline {
 
   agent any        //############################# R ##############################
  
-  //environment {
-  //  ARTIFACTORY = credentials("${ARTIFACTORY}") // Username with password
-  //  appname = 'discovery'
-  //    REGISTRY_ADDRESS = "${REGISTRY_ADDRESS}"
-  //}
+  environment {
+    //ARTIFACTORY = credentials("${ARTIFACTORY}") // Username with password  //############################## U C  #############################
+    ARTIFACTORY = credentials("testing")            //############################# R ##############################
+    //REGISTRY_ADDRESS = "${REGISTRY_ADDRESS}"
+  }
 
   options {
     timestamps()
@@ -23,22 +23,22 @@ pipeline {
         script {
           //load 'jenkins-props/build.properties' //############################## U C  #############################
           load 'build.properties'  //############################# R ##############################               
-          echo "Inside===========${appname}"
+          echo "Inside===========${appname}"    //############################# R ##############################
         }
       }
     }
 
-    // stage('Environment check') {
-    //   steps {
-    //     sh label: 'Getting build versions', script: '''
-    //     which git; git --version
-    //     which gradle; gradle --version
-    //     which docker; docker --version
-    //     systemctl status docker;
-    //     uname -a;
-    //     '''
-    //   }
-    // }
+    stage('Environment check') {
+      steps {
+        sh label: 'Getting build versions', script: '''
+        which git; git --version
+        which gradle; gradle --version
+        which docker; docker --version
+        systemctl status docker;
+        uname -a;
+        '''
+      }
+    }
 
     // stage('Checkout SCM') {
     //   steps {
