@@ -49,17 +49,17 @@ pipeline {
     }
     
     // Conditions to set artification version is covered for develop and release branches
-    // stage('Set version') {
-    //   steps {
-    //     script { 
-    //       echo "Outside===========${appname}"
-    //       def values = env.GIT_BRANCH.tokenize('/')
-    //       branchType = values[0] 
-    //       branchVersion = values[1]
-    //       artifactVersion = (branchType == 'release' ? values[1] : 'DEV-SNAPSHOT')
-    //     }
-    //   }
-    // }
+    stage('Set version') {
+      steps {
+        script { 
+          echo "Outside===========${appname}"
+          def values = env.GIT_BRANCH.tokenize('/')
+          branchType = values[0] 
+          branchVersion = values[1]
+          artifactVersion = (branchType == 'release' ? values[1] : 'DEV-SNAPSHOT')
+        }
+      }
+    }
 
     // stage('docker login and container build') {
     //   steps {
