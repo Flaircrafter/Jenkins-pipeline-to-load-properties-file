@@ -151,55 +151,59 @@ pipeline {
     stage('Trigger QA deployment') {
       when {
         expression {
-          (branchType == 'develop')
+          //(branchType == 'develop')              //############################## U C  #############################
+          (branchType == 'origin')                //############################## R #############################
         }
       }
       steps {
         script {
-          build job: "${deploy_job_develop}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",
+          //build job: "${deploy_job_develop}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",      //############################## U C  #############################
+          build job: "${deploy_job_qa}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",             //############################## R #############################
           propagate: false,
           wait: false
         }   
       }
     }
 
-    // stage("Trigger Prod/BC Deployment") {
-    //   when {
-    //       expression {
-    //         (branchType == 'release')
-    //       }
-    //   }
-    //   parallel {
-    //     stage("Deploy on Prod") { 
-    //       steps {
-    //         script {
-    //           build job: "${deploy_job_release}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",
-    //           propagate: false,
-    //           wait: false
-    //         }
-    //       }
-    //     }
-    //     stage("Deploy on BC") { 
-    //       steps {
-    //         script {
-    //           build job: "${deploy_bcjob_release}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",
-    //           propagate: false,
-    //           wait: false
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+    stage("Trigger Prod/BC Deployment") {
+      when {
+          expression {
+            (branchType == 'origin')
+          }
+      }
+      parallel {
+        stage("Deploy on Prod") { 
+          steps {
+            script {
+              //build job: "${deploy_job_release}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",
+              //propagate: false,
+              //wait: false
+              echo "This is prod deployment"
+            }
+          }
+        }
+        stage("Deploy on BC") { 
+          steps {
+            script {
+              //build job: "${deploy_bcjob_release}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",
+              //propagate: false,
+              //wait: false
+              echo "This is BC deployment"
+            }
+          }
+        }
+      }
+    }
   }
 
   post {
     always {
       sh """
-        #docker stop ${appname}-${env.GIT_COMMIT}
-        #docker rm ${appname}-${env.GIT_COMMIT}
-        #docker rmi ${appname}-${env.GIT_COMMIT}:latest
+        #docker stop ${appname}-${env.GIT_COMMIT}                    //############################## U C  #############################
+        #docker rm ${appname}-${env.GIT_COMMIT}                      //############################## U C  #############################
+        #docker rmi ${appname}-${env.GIT_COMMIT}:latest              //############################## U C  #############################
 
-        echo "appname-GIT_COMMIT ====== $appname-${env.GIT_COMMIT}"
+        echo "appname-GIT_COMMIT ====== $appname-${env.GIT_COMMIT}"    ############################## R #############################
       """  
       cleanWs()
     }   
