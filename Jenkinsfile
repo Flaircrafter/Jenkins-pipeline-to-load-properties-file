@@ -96,8 +96,10 @@ pipeline {
         }
       } 
       steps {
-        script {
+        sh """
           dateTime=$(date +"%Y%m%d%H%M%S")
+        """
+        script {
           reponame = (branchType == 'release') ? "${ARTIFACT_REPOSITORY_RELEASE}" : "${ARTIFACT_REPOSITORY_LOCAL}"
           targetfilename = "$appname-${artifactVersion}"
           echo "dateTime-reponame-targetfilename ========= $dateTime-$reponame-$targetfilename"         //############################# R ##############################
