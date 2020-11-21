@@ -158,7 +158,7 @@ pipeline {
       steps {
         script {
           //build job: "${deploy_job_develop}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",      //############################## U C  #############################
-          build job: "${deploy_job_qa}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",             //############################## R #############################
+          build job: "deploy_job_qa",                                                        //############################## R #############################
           propagate: false,
           wait: false
         }   
