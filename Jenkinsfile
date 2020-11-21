@@ -34,7 +34,7 @@ pipeline {
         which git; git --version
         #which gradle; gradle --version          //############################## U C  #############################
         which docker; docker --version
-        systemctl status docker;
+        #systemctl status docker;             //############################## U C  #############################
         uname -a;
         '''
       }
