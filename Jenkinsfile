@@ -99,7 +99,7 @@ pipeline {
         script {
           def dateTime = new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone('UTC'))
           reponame = (branchType == 'release') ? "${ARTIFACT_REPOSITORY_RELEASE}" : "${ARTIFACT_REPOSITORY_LOCAL}"
-          targetfilename = "$appname-${artifactVersion}"
+          targetfilename = "${appname}-${artifactVersion}"
           echo "dateTime-reponame-targetfilename ========= $dateTime-$reponame-$targetfilename"         //############################# R ##############################
           sh "echo dateTime-reponame-targetfilename ========= $dateTime-$reponame-$targetfilename"      //############################# R ##############################
         } 
@@ -148,20 +148,20 @@ pipeline {
     }
 
       
-    // stage('Trigger QA deployment') {
-    //   when {
-    //     expression {
-    //       (branchType == 'develop')
-    //     }
-    //   }
-    //   steps {
-    //     script {
-    //       build job: "${deploy_job_develop}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",
-    //       propagate: false,
-    //       wait: false
-    //     }   
-    //   }
-    // }
+    stage('Trigger QA deployment') {
+      when {
+        expression {
+          (branchType == 'develop')
+        }
+      }
+      steps {
+        script {
+          build job: "${deploy_job_develop}/${env.BRANCH_NAME.replaceAll('/', '%2F')}",
+          propagate: false,
+          wait: false
+        }   
+      }
+    }
 
     // stage("Trigger Prod/BC Deployment") {
     //   when {
@@ -192,14 +192,16 @@ pipeline {
     // }
   }
 
-  // post {
-  //   always {
-  //     sh """
-  //       docker stop ${env.appname}-${env.GIT_COMMIT}
-  //       docker rm ${env.appname}-${env.GIT_COMMIT}
-  //       docker rmi ${env.appname}-${env.GIT_COMMIT}:latest
-  //     """  
-  //     cleanWs()
-  //   }   
-  // }
+  post {
+    always {
+      sh """
+        #docker stop ${appname}-${env.GIT_COMMIT}
+        #docker rm ${appname}-${env.GIT_COMMIT}
+        #docker rmi ${appname}-${env.GIT_COMMIT}:latest
+
+        echo "appname-GIT_COMMIT ====== $appname-${env.GIT_COMMIT}"
+      """  
+      cleanWs()
+    }   
+  }
 }
