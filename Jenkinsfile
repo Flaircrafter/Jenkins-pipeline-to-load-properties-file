@@ -83,7 +83,7 @@ pipeline {
             //    ls -lrt ${env.WORKSPACE}/
             //"""
             sh """                                                                   
-                echo "appname-GIT_COMMIT-WORKSPACE ====== $appname-${env.GIT_COMMIT}-${env.WORKSPACE}   ############################# R ##############################
+                echo "appname-GIT_COMMIT-WORKSPACE ====== $appname-${env.GIT_COMMIT}-${env.WORKSPACE}"   ############################# R ##############################
             """                                                              
         }
       }
