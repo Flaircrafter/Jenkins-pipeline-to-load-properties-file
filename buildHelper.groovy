@@ -7,9 +7,9 @@ def buildvars() {
         ARTIFACT_REPOSITORY_RELEASE = 'pfi-libs-release-local'
         REPO_PATH = '/com/prudential/fi/microservices'
         ARTIFACTORY_URL = 'https://artifactory.prudential.com/artifactory/'
-        deploy_job_develop = 'pfi-services/discovery-server/discovery-server-int-deployment'
-        deploy_job_release = 'pfi-services/discovery-server/discovery-server-prod-deployment'
-        deploy_bcjob_release = 'pfi-services/discovery-server/discovery-server-bc-deployment'
+        deploy_job_develop = 'deployment'
+        deploy_job_release = 'prod-deployment'
+        deploy_bcjob_release = 'bc-deployment'
 
     ]
 }
