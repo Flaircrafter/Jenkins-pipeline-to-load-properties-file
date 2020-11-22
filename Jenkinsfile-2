@@ -18,6 +18,8 @@ pipeline {
           def helper = load "buildHelper.groovy"
           def vars = helper.buildvars()
           
+          echo "======= $vars"
+          
           echo "appname ========= ${vars.'appname'}"
         }
       }
