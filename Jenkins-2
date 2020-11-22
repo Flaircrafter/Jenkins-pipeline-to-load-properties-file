@@ -1,0 +1,24 @@
+pipeline {
+
+  agent any
+ 
+  environment {
+    ARTIFACTORY = credentials("testing")
+  }
+
+  options {
+    timestamps()
+    disableConcurrentBuilds()
+  }
+
+  stages {
+    stage ('Load Properties file') {
+      steps {
+        script {
+          def helper = load "buildHelper.groovy"
+          def buildHelper = helper.buildHelper()
+          
+          echo "appname ========= ${buildHelper.appname}"
+        }
+      }
+    }
