@@ -13,3 +13,5 @@ def buildHelper() {
 
     ]
 }
+
+return this
