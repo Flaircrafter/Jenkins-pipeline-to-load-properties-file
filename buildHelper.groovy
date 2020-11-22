@@ -1,4 +1,4 @@
-def buildHelper() {
+def buildvars() {
     [
         artifactoryServer = '570345447@1457720246680'
         appname = 'discovery'
