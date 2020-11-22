@@ -6,7 +6,7 @@ def buildvars() {
         ARTIFACT_REPOSITORY_LOCAL = 'pfi-libs-snapshot-local',
         ARTIFACT_REPOSITORY_RELEASE = 'pfi-libs-release-local',
         REPO_PATH = '/com/prudential/fi/microservices',
-        ARTIFACTORY_URL = 'artifactory.prudential.comartifactory',
+        ARTIFACTORY_URL = 'artifactory.prudential.comartifactory'
 
     ]
 }
