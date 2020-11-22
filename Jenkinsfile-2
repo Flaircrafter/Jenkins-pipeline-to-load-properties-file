@@ -16,9 +16,9 @@ pipeline {
       steps {
         script {
           def helper = load "buildHelper.groovy"
-          def buildHelper = helper.buildHelper()
+          def buildvars = helper.buildvars()
           
-          echo "appname ========= ${buildHelper.appname}"
+          echo "appname ========= ${buildvars.appname}"
         }
       }
     }
