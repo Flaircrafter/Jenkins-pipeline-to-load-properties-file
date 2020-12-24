@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    //environment {
+    //	artifactory = credentials("testing")
+    //}
+
+    stages {
+
+      stage ('Build Image') {
+      	steps {
+          script {
+            echo "Building an image"
+          	sh 'docker build -t docker_demo .'
+          }
+        }
+      }
+
+      stage ('Push Image to docker hub') {
+        steps {
+          script {
+            echo "Pushing the image to Docker hub"
+          }
+        }
+      }
+
+      stage ('Run a container') {
+        steps {
+          script {
+            echo "Starting a container"
+    		sh 'docker run -d --name docker_demo docker_demo'
+          }
+        }
+      }
+    }
+ }
