@@ -28,7 +28,7 @@ pipeline {
         steps {
           script {
             echo "Starting a container"
-            sh '/usr/local/bin/docker run -d --name docker_demo docker_demo'
+            sh '/usr/local/bin/docker run -d --name docker_demo docker_demo:v1'
           }
         }
       }
