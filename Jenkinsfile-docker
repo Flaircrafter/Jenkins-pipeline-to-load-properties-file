@@ -11,7 +11,7 @@ pipeline {
       	steps {
           script {
             echo "Building an image"
-            sh '/usr/local/bin/docker build -t docker_demo:v1 .'
+            sh '/usr/bin/docker build -t docker_demo:v1 .'
           }
         }
       }
@@ -28,7 +28,7 @@ pipeline {
         steps {
           script {
             echo "Starting a container"
-            sh '/usr/local/bin/docker run -d --name docker_demo docker_demo:v1'
+            sh '/usr/bin/docker run -d --name docker_demo docker_demo:v1'
           }
         }
       }
